@@ -2,7 +2,7 @@ from monomio import monomio
 
 class polinomio:
     
-
+    #Contructor de la clase polinomio. Asignamos la lista de monomios, la ordenamos y la simplificamos
     def __init__(self, lista):
         
         self.lista = lista
@@ -20,7 +20,7 @@ class polinomio:
         
         return cadena
 
-
+    #Ordenamos la lista de monomios mediante el método burbuja
     def ordenar(self):
         n = len(self.lista)
         for i in range(n - 1):
@@ -28,7 +28,7 @@ class polinomio:
                 if self.lista[j].exponente > self.lista[j+1].exponente:
                     self.lista[j], self.lista[j + 1] = self.lista[j + 1], self.lista[j]
         
-
+    #Simplificamos la lista de monomios uniendo los que tienen el mismo exponente en una nueva lista
     def simplificar(self):
         self.ordenar()
         self.lista.append(monomio(0,0))
@@ -47,31 +47,39 @@ class polinomio:
             listaAux.append(self.lista[i])
         self.lista = simplificado
     
-
+    #Para sumar dos polinomios unimos las listas de monomios y las simplificamos
     def suma(self,otro):
         listaR = self.lista + otro.lista
         resultado = polinomio(listaR)
         resultado.simplificar()
         return resultado
 
+    #Resta. 
     def resta(self, otro):
         listaR = []
-        
-        for i in range(len(self.lista)):
-            for j in range(len(otro.lista)):
-                if self.lista[i].exponente == otro.lista[j].exponente:
-                    listaR.append(self.lista[i].resta(otro.lista[j]))
-                    self.lista.pop(i)
-                    otro.lista.pop(j)
-            
-        listaR = listaR + self.lista + otro.lista
+        listaA = self.lista.copy()
+        listaB = otro.lista.copy()
+        for i in range(0, len(listaA)):
+            for j in range(0, len(listaB)):
+                if listaA[i] == None or listaB[j] == None:
+                    continue
+                if listaA[i].exponente == listaB[j].exponente:
+                    listaR.append(listaA[i].resta(listaB[j]))
+                    listaA[i] = None
+                    listaB[j] = None
+ 
+        listaR = listaR + listaA + listaB
+        for i in listaR:
+            if i == None:
+                listaR.remove(i)
         return polinomio(listaR)
 
+    #Función para obtener el producto de dos listas de monomios
     def producto(self, otro):
-        listaR = []
+        listaM = []
 
         for i in self.lista:
             for j in self.lista:
-                listaR.append(i.producto(j))
+                listaM.append(i.producto(j))
 
-        return polinomio(listaR)
+        return polinomio(listaM)
