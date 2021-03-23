@@ -22,11 +22,11 @@ class monomio:
             raise ValueError ("Los exponentes deben coincidir")
         return monomio(self.exponente, self.coeficiente + otro.coeficiente)
 
-    def __resta__(self, otro):
+    def resta(self, otro):
         if self.exponente != otro.exponente:
             raise ValueError("Los exponentes deben coincidir")
         return monomio(self.exponente, self.coeficiente + ~otro.coeficiente)
     
-    def __producto__(self, otro):
+    def producto(self, otro):
         return monomio(self.exponente + otro.exponente, self.coeficiente * otro.coeficiente)
 

@@ -6,8 +6,8 @@ class polinomio:
     def __init__(self, lista):
         
         self.lista = lista
-        #self.ordenar()
-        #self.simplificar()
+        self.ordenar()
+        self.simplificar()
             
 
     def __str__(self):
@@ -54,4 +54,24 @@ class polinomio:
         resultado.simplificar()
         return resultado
 
-    
+    def resta(self, otro):
+        listaR = []
+        
+        for i in range(len(self.lista)):
+            for j in range(len(otro.lista)):
+                if self.lista[i].exponente == otro.lista[j].exponente:
+                    listaR.append(self.lista[i].resta(otro.lista[j]))
+                    self.lista.pop(i)
+                    otro.lista.pop(j)
+            
+        listaR = listaR + self.lista + otro.lista
+        return polinomio(listaR)
+
+    def producto(self, otro):
+        listaR = []
+
+        for i in self.lista:
+            for j in self.lista:
+                listaR.append(i.producto(j))
+
+        return polinomio(listaR)
